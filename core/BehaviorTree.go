@@ -220,7 +220,7 @@ func (this *BehaviorTree) Load(data *config.BTTreeCfg, maps *b3.RegisterStructMa
 		node.SetBaseNodeWorker(node.(IBaseWorker))
 		nodes[id] = node
 	}
-	fmt.Println("BehaviorTree load  ", data, maps, extMaps, nodes)
+	fmt.Println("BehaviorTree load data=", data, "maps=", maps, "extMaps=", extMaps, "nodes=", nodes)
 	// Connect the nodes
 	for id, spec := range data.Nodes {
 		node := nodes[id]
