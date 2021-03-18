@@ -1,7 +1,6 @@
 package core
 
 import (
-	"fmt"
 	_ "fmt"
 
 	b3 "github.com/huilong-cn/behavior3go"
@@ -188,7 +187,7 @@ func (this *BaseNode) GetTitle() string {
  * @protected
 **/
 func (this *BaseNode) _execute(tick *Tick) b3.Status {
-	fmt.Println("_execute :", this.title, tick)
+	//fmt.Println("_execute :", this.title, tick)
 	// ENTER
 	this._enter(tick)
 

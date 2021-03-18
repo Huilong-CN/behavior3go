@@ -1,7 +1,6 @@
 package core
 
 import (
-	"fmt"
 	_ "fmt"
 )
 
@@ -111,7 +110,7 @@ func (this *Tick) GetTree() *BehaviorTree {
 func (this *Tick) _enterNode(node IBaseNode) {
 	this._nodeCount++
 	this._openNodes = append(this._openNodes, node)
-	fmt.Println("_enterNode  ", this._openNodes)
+	//fmt.Println("_enterNode  ", this._openNodes)
 	// TODO: call debug here
 }
 
