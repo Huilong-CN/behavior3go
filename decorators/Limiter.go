@@ -17,7 +17,7 @@ import (
 **/
 type Limiter struct {
 	Decorator
-	maxLoop int
+	maxLoop string
 }
 
 /**
@@ -34,10 +34,10 @@ type Limiter struct {
 **/
 func (this *Limiter) Initialize(setting *BTNodeCfg) {
 	this.Decorator.Initialize(setting)
-	this.maxLoop = setting.GetPropertyAsInt("maxLoop")
-	if this.maxLoop < 1 {
-		panic("maxLoop parameter in MaxTime decorator is an obligatory parameter")
-	}
+	this.maxLoop = setting.GetPropertyAsString("maxLoop")
+	//if this.maxLoop < 1 {
+	//	panic("maxLoop parameter in MaxTime decorator is an obligatory parameter")
+	//}
 }
 
 /**
@@ -51,7 +51,8 @@ func (this *Limiter) OnTick(tick *Tick) b3.Status {
 		return b3.ERROR
 	}
 	var i = tick.Blackboard.GetInt("i", tick.GetTree().GetID(), this.GetID())
-	if i < this.maxLoop {
+	maxLoop := ToInt(this.maxLoop, tick.GetTree().GetID(), this.GetID(), tick.Blackboard)
+	if i < maxLoop {
 		var status = this.GetChild().Execute(tick)
 		if status == b3.SUCCESS || status == b3.FAILURE {
 			tick.Blackboard.Set("i", i+1, tick.GetTree().GetID(), this.GetID())

@@ -2,6 +2,8 @@ package core
 
 import (
 	"fmt"
+	"reflect"
+	"strconv"
 
 	b3 "github.com/huilong-cn/behavior3go"
 	"github.com/huilong-cn/behavior3go/config"
@@ -348,4 +350,20 @@ func printNode(root IBaseNode, blk int) {
 		}
 	}
 
+}
+
+func ToInt(value, treeScope, nodeScope string, blackboard *Blackboard ) int {
+	if val1, err := strconv.Atoi(value); err == nil {
+		return val1
+	}else{
+		val := blackboard.Get(value, treeScope, nodeScope)
+		if val == nil {
+			return 0
+		}else if reflect.TypeOf(val).Kind() == reflect.Int{
+			return val.(int)
+		}else {
+			panic(fmt.Sprintf("ToInt error %v, value:%s, treeScope:%s, nodeScope:%s", val, value, treeScope, nodeScope))
+		}
+	}
+	return  0
 }

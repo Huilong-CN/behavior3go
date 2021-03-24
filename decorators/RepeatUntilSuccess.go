@@ -18,7 +18,7 @@ import (
 **/
 type RepeatUntilSuccess struct {
 	Decorator
-	maxLoop int
+	maxLoop string
 }
 
 /**
@@ -35,10 +35,10 @@ type RepeatUntilSuccess struct {
 **/
 func (this *RepeatUntilSuccess) Initialize(setting *BTNodeCfg) {
 	this.Decorator.Initialize(setting)
-	this.maxLoop = setting.GetPropertyAsInt("maxLoop")
-	if this.maxLoop < 1 {
-		panic("maxLoop parameter in MaxTime decorator is an obligatory parameter")
-	}
+	this.maxLoop = setting.GetPropertyAsString("maxLoop")
+	//if this.maxLoop < 1 {
+	//	panic("maxLoop parameter in MaxTime decorator is an obligatory parameter")
+	//}
 }
 
 /**
@@ -62,7 +62,8 @@ func (this *RepeatUntilSuccess) OnTick(tick *Tick) b3.Status {
 	}
 	var i = tick.Blackboard.GetInt("i", tick.GetTree().GetID(), this.GetID())
 	var status = b3.ERROR
-	for this.maxLoop < 0 || i < this.maxLoop {
+	maxLoop := ToInt(this.maxLoop, tick.GetTree().GetID(), this.GetID(), tick.Blackboard)
+	for maxLoop < 0 || i < maxLoop {
 		status = this.GetChild().Execute(tick)
 		if status == b3.FAILURE {
 			i++
